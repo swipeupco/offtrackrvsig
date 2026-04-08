@@ -91,7 +91,7 @@
   <div class="preview-area">
     <div class="preview-label">Live Preview</div>
     <div class="preview-box">
-      <iframe id="preview" sandbox="allow-same-origin"></iframe>
+      <iframe id="preview" style="width:600px;height:280px;border:none;display:block;background:white;"></iframe>
     </div>
     <div class="actions">
       <h2>Export</h2>
@@ -374,14 +374,13 @@ function buildSig() {
 function updatePreview() {
   const html = buildSig();
   const iframe = document.getElementById('preview');
-  const doc = iframe.contentDocument || iframe.contentWindow.document;
-  doc.open(); doc.write(html); doc.close();
-  setTimeout(() => {
-    try { 
-      const h = doc.body.scrollHeight;
+  iframe.srcdoc = html;
+  iframe.onload = () => {
+    try {
+      const h = iframe.contentDocument.body.scrollHeight;
       if (h > 50) iframe.style.height = h + 'px';
     } catch(e) {}
-  }, 300);
+  };
 }
 
 function downloadSig() {
