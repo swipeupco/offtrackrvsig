@@ -5,38 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Off Track RV | Email Signature Generator</title>
 <style>
-  :root { --dark: #1a1a1a; --mid: #2c2c2c; --accent: #c8a84b; --white: #ffffff; --grey: #888; }
+  :root { --dark: #0d0d0d; --mid: #1c1c1c; --accent: #15C29F; --white: #ffffff; --grey: #8a8a8a; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--dark); color: var(--white); font-family: 'Helvetica Neue', Arial, sans-serif; min-height: 100vh; }
-  header { background: var(--mid); border-bottom: 2px solid var(--accent); padding: 18px 32px; display: flex; align-items: center; gap: 16px; }
+  header { background: #000; border-bottom: 2px solid var(--accent); padding: 18px 32px; display: flex; align-items: center; gap: 16px; }
   header h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
   header span { font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
   .sep { width: 1px; height: 28px; background: #444; }
   .layout { display: grid; grid-template-columns: 320px 1fr; min-height: calc(100vh - 62px); }
-  .panel { background: var(--mid); border-right: 1px solid #3a3a3a; padding: 28px 24px; overflow-y: auto; }
+  .panel { background: var(--mid); border-right: 1px solid #2e2e2e; padding: 28px 24px; overflow-y: auto; }
   .panel h2 { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; font-weight: 600; }
   .field-group { margin-bottom: 16px; }
   .field-group label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey); margin-bottom: 5px; font-weight: 500; }
-  .field-group input { width: 100%; background: #1a1a1a; border: 1px solid #3a3a3a; border-radius: 3px; padding: 9px 12px; color: var(--white); font-size: 13px; outline: none; transition: border-color 0.2s; font-family: inherit; }
+  .field-group input { width: 100%; background: #0d0d0d; border: 1px solid #333; border-radius: 3px; padding: 9px 12px; color: var(--white); font-size: 13px; outline: none; transition: border-color 0.2s; font-family: inherit; }
   .field-group input:focus { border-color: var(--accent); }
   .preview-area { padding: 36px; display: flex; flex-direction: column; align-items: flex-start; }
   .preview-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; font-weight: 600; }
-  .preview-box { overflow: hidden; max-width: 620px; width: 100%; }
-  iframe#preview { width: 620px; height: 300px; border: none; display: block; }
+  .preview-box { background: #fff; padding: 20px; border-radius: 4px; max-width: 640px; width: 100%; }
+  iframe#preview { width: 600px; max-width: 100%; height: 260px; border: none; display: block; }
   .actions { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
   .actions h2 { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; font-weight: 600; }
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 3px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
-  .btn-primary { background: var(--accent); color: #1a1a1a; }
-  .btn-primary:hover { background: #d4b660; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-primary:hover { background: #2fd8b4; }
   .btn-secondary { background: transparent; color: var(--white); border: 1px solid #444; }
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-  .copy-area { margin-top: 24px; padding-top: 24px; border-top: 1px solid #3a3a3a; }
-  .instructions { background: #1a1a1a; border: 1px solid #3a3a3a; border-radius: 3px; padding: 14px; font-size: 12px; color: #aaa; line-height: 1.8; }
+  .copy-area { margin-top: 24px; padding-top: 24px; border-top: 1px solid #2e2e2e; }
+  .instructions { background: #0d0d0d; border: 1px solid #2e2e2e; border-radius: 3px; padding: 14px; font-size: 12px; color: #aaa; line-height: 1.8; }
   .instructions ol { padding-left: 16px; }
   .instructions li { margin-bottom: 4px; }
   .instructions strong { color: var(--white); }
-  .toast { position: fixed; bottom: 28px; right: 28px; background: var(--accent); color: #1a1a1a; padding: 11px 18px; border-radius: 3px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0; transform: translateY(8px); transition: all 0.3s; pointer-events: none; z-index: 999; }
+  .toast { position: fixed; bottom: 28px; right: 28px; background: var(--accent); color: #000; padding: 11px 18px; border-radius: 3px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0; transform: translateY(8px); transition: all 0.3s; pointer-events: none; z-index: 999; }
   .toast.show { opacity: 1; transform: translateY(0); }
+  @media (max-width: 820px) { .layout { grid-template-columns: 1fr; } .panel { border-right: none; } .preview-area { padding: 20px 16px; } }
 </style>
 </head>
 <body>
@@ -48,11 +49,11 @@
 <div class="layout">
   <div class="panel">
     <h2>Your Details</h2>
-    <div class="field-group"><label>Full Name</label><input type="text" id="f_name" value=""></div>
-    <div class="field-group"><label>Job Title</label><input type="text" id="f_title" value=""></div>
-    <div class="field-group"><label>Email Address</label><input type="text" id="f_email" value=""></div>
-    <div class="field-group"><label>Phone</label><input type="text" id="f_phone" value="03 99700 1111"></div>
-    <div class="field-group"><label>Address</label><input type="text" id="f_address" value="1946 Sydney Road, Campbellfield, VIC, 3061"></div>
+    <div class="field-group"><label>Full Name</label><input type="text" id="f_name" placeholder="Justin Borg"></div>
+    <div class="field-group"><label>Job Title</label><input type="text" id="f_title" placeholder="Managing Director"></div>
+    <div class="field-group"><label>Email Address</label><input type="text" id="f_email" placeholder="justin@offtrackrv.com"></div>
+    <div class="field-group"><label>Phone</label><input type="text" id="f_phone" value="03 9970 1111"></div>
+    <div class="field-group"><label>Address</label><input type="text" id="f_address" value="1946 Sydney Road, Campbellfield VIC 3061"></div>
     <div class="copy-area">
       <h2>How to Install</h2>
       <div class="instructions">
@@ -70,7 +71,7 @@
   <div class="preview-area">
     <div class="preview-label">Live Preview</div>
     <div class="preview-box">
-      <iframe id="preview"></iframe>
+      <iframe id="preview" title="Signature preview"></iframe>
     </div>
     <div class="actions">
       <h2>Export</h2>
@@ -81,25 +82,88 @@
 </div>
 <div class="toast" id="toast"></div>
 <script>
-const TEMPLATE_B64 = "PCFET0NUWVBFIEhUTUwgUFVCTElDICItLy9XM0MvL0RURCBIVE1MIDQuMDEgVHJhbnNpdGlvbmFsLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL1RSL2h0bWw0L2xvb3NlLmR0ZCI+IAo8aHRtbCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCIgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSI+IAo8aGVhZD4gCgk8IS0tW2lmIGd0ZSBtc28gOV0+Cgk8eG1sPgoJPG86T2ZmaWNlRG9jdW1lbnRTZXR0aW5ncz4KCTxvOkFsbG93UE5HLz4KCTxvOlBpeGVsc1BlckluY2g+OTY8L286UGl4ZWxzUGVySW5jaD4KCTwvbzpPZmZpY2VEb2N1bWVudFNldHRpbmdzPgoJPC94bWw+Cgk8IVtlbmRpZl0tLT4gCgk8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD11dGYtOCI+IAoJPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCxpbml0aWFsLXNjYWxlPTEiPiAKCTxtZXRhIGh0dHAtZXF1aXY9IlgtVUEtQ29tcGF0aWJsZSIgY29udGVudD0iSUU9RWRnZSIvPiAKCTxtZXRhIG5hbWU9IngtYXBwbGUtZGlzYWJsZS1tZXNzYWdlLXJlZm9ybWF0dGluZyI+IAoJPHRpdGxlPkp1c3RpbiBCb3JnPC90aXRsZT4gCgk8c3R5bGU+aHRtbHstd2Via2l0LXRleHQtc2l6ZS1hZGp1c3Q6bm9uZTstbXMtdGV4dC1zaXplLWFkanVzdDpub25lfS5vbmx5X21vYntkaXNwbGF5Om5vbmUhaW1wb3J0YW50fUBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1heC1kZXZpY2Utd2lkdGg6NjAwcHgpLG9ubHkgc2NyZWVuIGFuZCAobWF4LXdpZHRoOjYwMHB4KXsubW9iXzEwMHt3aWR0aDoxMDAlIWltcG9ydGFudDttYXgtd2lkdGg6MTAwJSFpbXBvcnRhbnR9Lm1vYl9mdWxse3dpZHRoOmF1dG8haW1wb3J0YW50O2Rpc3BsYXk6YmxvY2shaW1wb3J0YW50O3BhZGRpbmc6MCAxMHB4IWltcG9ydGFudH0ubW9iX2NlbnRlcnt0ZXh0LWFsaWduOmNlbnRlciFpbXBvcnRhbnR9Lm1vYl9jZW50ZXJfYmx7bWFyZ2luLWxlZnQ6YXV0bzttYXJnaW4tcmlnaHQ6YXV0b30ubW9iX2hpZGRlbntkaXNwbGF5Om5vbmUhaW1wb3J0YW50fS5vbmx5X21vYntkaXNwbGF5OmJsb2NrIWltcG9ydGFudH10YWJsZS5vbmx5X21vYntkaXNwbGF5OnRhYmxlIWltcG9ydGFudH19QG1lZGlhIG9ubHkgc2NyZWVuIGFuZCAobWF4LXdpZHRoOjYwMHB4KXsubW9iXzEwMHt3aWR0aDoxMDAlIWltcG9ydGFudDttYXgtd2lkdGg6MTAwJSFpbXBvcnRhbnR9Lm1vYl8xMDAgaW1nLC5tb2JfMTAwIHRhYmxle21heC13aWR0aDoxMDAlIWltcG9ydGFudH0ubW9iX2Z1bGx7d2lkdGg6YXV0byFpbXBvcnRhbnQ7ZGlzcGxheTpibG9jayFpbXBvcnRhbnQ7cGFkZGluZzowIDEwcHghaW1wb3J0YW50fS5tb2JfY2VudGVye3RleHQtYWxpZ246Y2VudGVyIWltcG9ydGFudH0ubW9iX2NlbnRlcl9ibHttYXJnaW4tbGVmdDphdXRvO21hcmdpbi1yaWdodDphdXRvfS5tb2JfaGlkZGVue2Rpc3BsYXk6bm9uZSFpbXBvcnRhbnR9Lm9ubHlfbW9ie2Rpc3BsYXk6YmxvY2shaW1wb3J0YW50fXRhYmxlLm9ubHlfbW9ie2Rpc3BsYXk6dGFibGUhaW1wb3J0YW50fX0uY3JlYXRpdmV7d2lkdGg6MTAwJSFpbXBvcnRhbnQ7bWF4LXdpZHRoOjEwMCUhaW1wb3J0YW50fS5tYWlsX3ByZWhlYWRlcntkaXNwbGF5Om5vbmUhaW1wb3J0YW50fWZvcm0gaW5wdXQsIGZvcm0gdGV4dGFyZWF7Zm9udC1mYW1pbHk6IEFyaWFsLCBzYW5zLXNlcmlmO3dpZHRoOiAxMDAlO2JveC1zaXppbmc6IGJvcmRlci1ib3g7Zm9udC1zaXplOiAxM3B4O2NvbG9yOiMwMDAwMDA7b3V0bGluZTpub25lO3BhZGRpbmc6IDBweCAxNXB4O31mb3JtIHRleHRhcmVhe3Jlc2l6ZTp2ZXJ0aWNhbDtsaW5lLWhlaWdodDogbm9ybWFsO3BhZGRpbmc6IDEwcHggMTVweDt9Zm9ybSBidXR0b257Ym9yZGVyOiAwcHggbm9uZTtjdXJzb3I6cG9pbnRlcjt9PC9zdHlsZT4gCgk8IS0tW2lmIChndGUgbXNvIDkpfChJRSldPgoJPHN0eWxlIHR5cGU9InRleHQvY3NzIj50YWJsZSB7Ym9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZSAhaW1wb3J0YW50O30ub3V0ZjE0e2ZvbnQtc2l6ZToxNHB4ICFpbXBvcnRhbnQ7fSAgICAudzM4NHB4eyB3aWR0aDogMzg0cHggIWltcG9ydGFudDt9IC53Mzg0cHh7IHdpZHRoOiAzODRweCAhaW1wb3J0YW50O30gLm5vdF9mb3Jfb3V0bG9vaywgLm5vdF9mb3Jfb3V0bG9vayB0YWJsZSwub25seV9tb2IsIC5vbmx5X21vYiB0YWJsZXttc28taGlkZTogYWxsICFpbXBvcnRhbnQ7ZGlzcGxheTogbm9uZSAhaW1wb3J0YW50O2ZvbnQtc2l6ZTowO21heC1oZWlnaHQ6MDtsaW5lLWhlaWdodDogMDttc28taGlkZTogYWxsO30ub3V0cGFkZGluZ3twYWRkaW5nLWxlZnQ6IDAgIWltcG9ydGFudDtwYWRkaW5nLXJpZ2h0OiAwICFpbXBvcnRhbnQ7ICAgICAgICBwYWRkaW5nLXRvcDogMCAhaW1wb3J0YW50OyAgICAgICAgcGFkZGluZy1ib3R0b206IDAgIWltcG9ydGFudDt9PC9zdHlsZT4KCTwhW2VuZGlmXS0tPiAKPC9oZWFkPiAKPGJvZHkgY2xhc3M9ImJvZHkiIHN0eWxlPSJwYWRkaW5nOjA7bWFyZ2luOjAiPiAKCTxkaXYgY2xhc3M9ImZ1bGwtd3JhcCI+IAoJCTx0YWJsZSB3aWR0aD0iMTAwJSIgYm9yZGVyPSIwIiBjZWxsc3BhY2luZz0iMCIgY2VsbHBhZGRpbmc9IjAiIGNsYXNzPSJmdWxsLXdyYXAiPgoJCTx0cj48dGQgYWxpZ249ImxlZnQiIGJnY29sb3I9IiNmZmZmZmYiIHN0eWxlPSJsaW5lLWhlaWdodDogbm9ybWFsOyBoeXBoZW5zOiBub25lOyI+CgkJCTxkaXY+CgkJCQk8IS0tW2lmICFtc29dPgoJCQkJPCEtLT4KCQkJCTxkaXYgY2xhc3M9Im1haWxfcHJlaGVhZGVyIiBzdHlsZT0iZm9udC1zaXplOiAwcHg7IGNvbG9yOiB0cmFuc3BhcmVudDsgb3BhY2l0eTogMDsiPgoJCQkJCTxzcGFuIHN0eWxlPSJmb250LWZhbWlseTogQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAwcHg7IGNvbG9yOiB0cmFuc3BhcmVudDsgbGluZS1oZWlnaHQ6IDBweDsiPjwvc3Bhbj4KCQkJCTwvZGl2PgoJCQkJPCEtLQoJCQkJPCFbZW5kaWZdLS0+CgkJCTwvZGl2PiAgCgkJCTxkaXY+CgkJCQk8IS0tW2lmIChndGUgbXNvIDkpfChJRSldPiAKCQkJCTx0YWJsZSB3aWR0aD0iNjAwIiBib3JkZXI9IjAiIGNlbGxzcGFjaW5nPSIwIiBjZWxscGFkZGluZz0iMCIgc3R5bGU9IndpZHRoOiA2MDBweDsiPgoJCQkJPHRyPjx0ZD4KCQkJCTwhW2VuZGlmXS0tPiAKCQkJCTx0YWJsZSBib3JkZXI9IjAiIGNlbGxzcGFjaW5nPSIwIiBjZWxscGFkZGluZz0iMCIgd2lkdGg9IjEwMCUiIHN0eWxlPSJtYXgtd2lkdGg6IDYwMHB4OyI+CgkJCQk8dHI+PHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249InRvcCIgYmdjb2xvcj0iI2ZmZmZmZiIgc3R5bGU9InBhZGRpbmc6MDsiPgo8dGFibGUgYm9yZGVyPSIwIiBjZWxsc3BhY2luZz0iMCIgY2VsbHBhZGRpbmc9IjAiIHdpZHRoPSI2MDAiIHN0eWxlPSJ3aWR0aDo2MDBweDsgYm9yZGVyLWNvbGxhcHNlOmNvbGxhcHNlOyI+Cjx0cj4KPHRkIHZhbGlnbj0idG9wIiB3aWR0aD0iMTYwIiBzdHlsZT0id2lkdGg6MTYwcHg7IHBhZGRpbmc6MTZweCAxMnB4IDE2cHggMTZweDsgYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmOyI+CjxpbWcgc3JjPSJodHRwczovL3N3aXBldXBjby5naXRodWIuaW8vb2ZmdHJhY2tydnNpZy9pbWcvb3Rydi1sb2dvLnBuZyIgd2lkdGg9IjE0MCIgaGVpZ2h0PSIxNDAiIGFsdD0iT2ZmIFRyYWNrIFJWIiBib3JkZXI9IjAiIHN0eWxlPSJkaXNwbGF5OmJsb2NrOyB3aWR0aDoxNDBweDsgaGVpZ2h0OmF1dG87Ij4KPC90ZD4KPHRkIHZhbGlnbj0ibWlkZGxlIiB3aWR0aD0iNDI0IiBzdHlsZT0id2lkdGg6NDI0cHg7IHBhZGRpbmc6MTZweCAxNnB4IDE2cHggMDsgYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmOyI+Cjx0YWJsZSBib3JkZXI9IjAiIGNlbGxzcGFjaW5nPSIwIiBjZWxscGFkZGluZz0iMCIgd2lkdGg9IjEwMCUiPgo8dHI+PHRkPgo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmOyBmb250LXdlaWdodDpib2xkOyBmb250LXNpemU6MjBweDsgY29sb3I6IzAwMDAwMDsgbGluZS1oZWlnaHQ6MS40OyI+SnVzdGluIEJvcmc8L2Rpdj4KPGRpdiBzdHlsZT0iaGVpZ2h0OjRweDsiPjwvZGl2Pgo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6MTNweDsgY29sb3I6Izc3Nzc3NzsgbGluZS1oZWlnaHQ6MS40OyI+TWFuYWdpbmcgRGlyZWN0b3I8L2Rpdj4KPGRpdiBzdHlsZT0iaGVpZ2h0OjhweDsiPjwvZGl2Pgo8aW1nIHNyYz0iaHR0cHM6Ly9zd2lwZXVwY28uZ2l0aHViLmlvL29mZnRyYWNrcnZzaWcvaW1nL2RpdmlkZXIucG5nIiB3aWR0aD0iMzcwIiBhbHQ9IiIgYm9yZGVyPSIwIiBzdHlsZT0iZGlzcGxheTpibG9jazsgd2lkdGg6MzcwcHg7Ij4KPGRpdiBzdHlsZT0iaGVpZ2h0OjhweDsiPjwvZGl2Pgo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTpBcmlhbCxzYW5zLXNlcmlmOyBmb250LXNpemU6MTNweDsgY29sb3I6IzExMTExMTsgbGluZS1oZWlnaHQ6MS42OyI+RToganVzdGluQG9mZnRyYWNrcnYuY29tPC9kaXY+CjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxM3B4OyBjb2xvcjojMTExMTExOyBsaW5lLWhlaWdodDoxLjY7Ij5UOiAwMyA5OTcwMCAxMTExPC9kaXY+CjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OkFyaWFsLHNhbnMtc2VyaWY7IGZvbnQtc2l6ZToxM3B4OyBjb2xvcjojMTExMTExOyBsaW5lLWhlaWdodDoxLjY7Ij5BOiAxOTQ2IFN5ZG5leSBSb2FkLCBDYW1wYmVsbGZpZWxkLCBWSUMsIDMwNjE8L2Rpdj4KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6QXJpYWwsc2Fucy1zZXJpZjsgZm9udC1zaXplOjEzcHg7IGNvbG9yOiMxMTExMTE7IGxpbmUtaGVpZ2h0OjEuNjsiPlc6IDxhIGhyZWY9Imh0dHBzOi8vd3d3Lm9mZnRyYWNrcnYuY29tLmF1LyIgdGFyZ2V0PSJfYmxhbmsiIHN0eWxlPSJjb2xvcjojMTExMTExOyB0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lOyI+b2ZmdHJhY2tydi5jb208L2E+PC9kaXY+CjxkaXYgc3R5bGU9ImhlaWdodDo4cHg7Ij48L2Rpdj4KPGltZyBzcmM9Imh0dHBzOi8vc3dpcGV1cGNvLmdpdGh1Yi5pby9vZmZ0cmFja3J2c2lnL2ltZy9kaXZpZGVyLnBuZyIgd2lkdGg9IjM3MCIgYWx0PSIiIGJvcmRlcj0iMCIgc3R5bGU9ImRpc3BsYXk6YmxvY2s7IHdpZHRoOjM3MHB4OyI+CjxkaXYgc3R5bGU9ImhlaWdodDo4cHg7Ij48L2Rpdj4KPHRhYmxlIGJvcmRlcj0iMCIgY2VsbHNwYWNpbmc9IjAiIGNlbGxwYWRkaW5nPSIwIj4KPHRyPgo8dGQgd2lkdGg9IjQxIiBzdHlsZT0id2lkdGg6NDFweDsgcGFkZGluZy1yaWdodDo2cHg7Ij48YSBocmVmPSJodHRwczovL3d3dy5pbnN0YWdyYW0uY29tL29mZl90cmFja3J2LyIgdGFyZ2V0PSJfYmxhbmsiPjxpbWcgc3JjPSJodHRwczovL3N3aXBldXBjby5naXRodWIuaW8vb2ZmdHJhY2tydnNpZy9pbWcvaWNvbi1pbnN0YWdyYW0ucG5nIiB3aWR0aD0iNDEiIGhlaWdodD0iMzkiIGFsdD0iSW5zdGFncmFtIiBib3JkZXI9IjAiIHN0eWxlPSJkaXNwbGF5OmJsb2NrOyI+PC9hPjwvdGQ+Cjx0ZCB3aWR0aD0iNDEiIHN0eWxlPSJ3aWR0aDo0MXB4OyBwYWRkaW5nLXJpZ2h0OjZweDsiPjxhIGhyZWY9Imh0dHBzOi8vd3d3LnRpa3Rvay5jb20vQG9mZnRyYWNrcnYiIHRhcmdldD0iX2JsYW5rIj48aW1nIHNyYz0iaHR0cHM6Ly9zd2lwZXVwY28uZ2l0aHViLmlvL29mZnRyYWNrcnZzaWcvaW1nL2ljb24tdGlrdG9rLnBuZyIgd2lkdGg9IjQxIiBoZWlnaHQ9IjM5IiBhbHQ9IlRpa1RvayIgYm9yZGVyPSIwIiBzdHlsZT0iZGlzcGxheTpibG9jazsiPjwvYT48L3RkPgo8dGQgd2lkdGg9IjQxIiBzdHlsZT0id2lkdGg6NDFweDsiPjxhIGhyZWY9Imh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL0BPZmZ0cmFja1JWIiB0YXJnZXQ9Il9ibGFuayI+PGltZyBzcmM9Imh0dHBzOi8vc3dpcGV1cGNvLmdpdGh1Yi5pby9vZmZ0cmFja3J2c2lnL2ltZy9pY29uLXlvdXR1YmUucG5nIiB3aWR0aD0iNDEiIGhlaWdodD0iMzkiIGFsdD0iWW91VHViZSIgYm9yZGVyPSIwIiBzdHlsZT0iZGlzcGxheTpibG9jazsiPjwvYT48L3RkPgo8L3RyPgo8L3RhYmxlPgo8L3RkPjwvdHI+CjwvdGFibGU+CjwvdGQ+PC90cj4KPC90YWJsZT4KPC90ZD48L3RyPgo8dHI+PHRkIGFsaWduPSJsZWZ0IiB2YWxpZ249InRvcCIgYmdjb2xvcj0iI2ZmZmZmZiIgc3R5bGU9InBhZGRpbmc6IDA7IGxpbmUtaGVpZ2h0OiAwOyBmb250LXNpemU6IDA7Ij4KCQkJCQk8YSBocmVmPSJodHRwczovL3d3dy5vZmZ0cmFja3J2LmNvbS5hdS8iIHRhcmdldD0iX2JsYW5rIiBzdHlsZT0iZGlzcGxheTogYmxvY2s7IGxpbmUtaGVpZ2h0OiAwOyBmb250LXNpemU6IDA7Ij4KCQkJCQkJPGltZyBzcmM9Imh0dHBzOi8vc3dpcGV1cGNvLmdpdGh1Yi5pby9vZmZ0cmFja3J2c2lnL2ltZy9iYW5uZXIuZ2lmIiB3aWR0aD0iNjAwIiBhbHQ9IkJ1eSBUaGUgQmVzdCBGcm9tIFRoZSBCZXN0IiBib3JkZXI9IjAiIHN0eWxlPSJkaXNwbGF5OiBibG9jazsgd2lkdGg6IDEwMCU7IG1heC13aWR0aDogNjAwcHg7IGxpbmUtaGVpZ2h0OiAwOyBmb250LXNpemU6IDA7Ij4KCQkJCQk8L2E+CgkJCQk8L3RkPjwvdHI+CgkJCQk8L3RhYmxlPiAKCQkJCTwhLS1baWYgKGd0ZSBtc28gOSl8KElFKV0+CgkJCQk8L3RkPjwvdHI+CgkJCQk8L3RhYmxlPiAKCQkJCTwhW2VuZGlmXS0tPgoJCQk8L2Rpdj4KCQk8L3RkPjwvdHI+CgkJPC90YWJsZT4gCgk8L2Rpdj4gCjwvYm9keT4gCjwvaHRtbD4gCg==";
-const TEMPLATE = decodeURIComponent(escape(atob(TEMPLATE_B64)));
+const BASE = 'https://swipeupco.github.io/offtrackrvsig/img/';
+const V = '20261018'; // bump when an image changes so email image caches refresh
 
-const FIELDS = [
-  { id: 'f_name',    find: 'Justin Borg' },
-  { id: 'f_title',   find: 'Managing Director' },
-  { id: 'f_email',   find: 'justin@offtrackrv.com' },
-  { id: 'f_phone',   find: '03 99700 1111' },
-  { id: 'f_address', find: '1946 Sydney Road, Campbellfield, VIC, 3061' },
-];
+const DEFAULTS = {
+  name: 'Justin Borg',
+  title: 'Managing Director',
+  email: 'justin@offtrackrv.com',
+  phone: '03 9970 1111',
+  address: '1946 Sydney Road, Campbellfield VIC 3061',
+};
 
-function buildSig() {
-  let html = TEMPLATE;
-  FIELDS.forEach(f => {
-    const val = document.getElementById(f.id).value.trim() || f.find;
-    html = html.split(f.find).join(val);
-  });
-  return html;
+function esc(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
+function row(label, value) {
+  return '<tr>' +
+    '<td width="20" valign="top" style="width:20px;padding:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:18px;font-weight:bold;color:#000000;">' + label + '</td>' +
+    '<td valign="top" style="padding:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:18px;color:#111111;">' + value + '</td>' +
+  '</tr>';
+}
+
+function icon(href, file, alt, last) {
+  return '<td width="24" style="width:24px;padding:0' + (last ? '' : ' 6px 0 0') + ';">' +
+    '<a href="' + href + '" target="_blank" style="text-decoration:none;"><img src="' + BASE + file + '?v=' + V + '" width="24" height="23" alt="' + alt + '" border="0" style="display:block;border:0;width:24px;height:23px;"></a></td>';
+}
+
+function sigHTML(d) {
+  const linkStyle = 'color:#111111;text-decoration:none;';
+  return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + esc(d.name) + '</title></head><body style="margin:0;padding:0;background:#ffffff;">' +
+  '<table cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px;border-collapse:collapse;background:#ffffff;">' +
+    '<tr>' +
+      '<td width="156" valign="top" style="width:156px;padding:0 24px 16px 0;">' +
+        '<img src="' + BASE + 'otrv-tile.png?v=' + V + '" width="132" height="132" alt="Off Track RV" border="0" style="display:block;border:0;width:132px;height:132px;">' +
+      '</td>' +
+      '<td valign="top" style="padding:0 0 16px 0;">' +
+        '<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;"><tr>' +
+          '<td valign="top" style="padding:0;">' +
+            '<div style="font-family:Arial,Helvetica,sans-serif;font-size:20px;line-height:24px;font-weight:bold;color:#000000;">' + esc(d.name) + '</div>' +
+            '<div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:18px;color:#6b6b6b;padding-top:2px;">' + esc(d.title) + '</div>' +
+          '</td>' +
+          '<td valign="top" align="right" width="84" style="width:84px;padding:4px 0 0 0;">' +
+            '<table cellpadding="0" cellspacing="0" border="0" align="right" style="border-collapse:collapse;"><tr>' +
+              icon('https://www.instagram.com/off_trackrv/', 'icon-instagram.png', 'Instagram') +
+              icon('https://www.tiktok.com/@offtrackrv', 'icon-tiktok.png', 'TikTok') +
+              icon('https://www.youtube.com/@OfftrackRV', 'icon-youtube.png', 'YouTube', true) +
+            '</tr></table>' +
+          '</td>' +
+        '</tr></table>' +
+        '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;margin:8px 0 9px 0;"><tr>' +
+          '<td width="32" height="3" bgcolor="#15C29F" style="width:32px;height:3px;background:#15C29F;font-size:0;line-height:0;">&nbsp;</td>' +
+        '</tr></table>' +
+        '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">' +
+          row('T', esc(d.phone)) +
+          row('E', '<a href="mailto:' + esc(d.email) + '" style="' + linkStyle + '">' + esc(d.email) + '</a>') +
+          row('W', '<a href="https://www.offtrackrv.com.au/" target="_blank" style="' + linkStyle + '">offtrackrv.com.au</a>') +
+          row('A', esc(d.address)) +
+        '</table>' +
+      '</td>' +
+    '</tr>' +
+    '<tr>' +
+      '<td colspan="2" style="padding:0;line-height:0;font-size:0;">' +
+        '<a href="https://www.offtrackrv.com.au/" target="_blank" style="display:block;line-height:0;font-size:0;">' +
+          '<img src="' + BASE + 'banner.gif?v=' + V + '" width="600" height="77" alt="Off Track RV: Buy the best from the best" border="0" style="display:block;border:0;width:600px;height:77px;">' +
+        '</a>' +
+      '</td>' +
+    '</tr>' +
+  '</table></body></html>';
+}
+
+function values() {
+  const v = id => document.getElementById(id).value.trim();
+  return {
+    name: v('f_name') || DEFAULTS.name,
+    title: v('f_title') || DEFAULTS.title,
+    email: v('f_email') || DEFAULTS.email,
+    phone: v('f_phone') || DEFAULTS.phone,
+    address: v('f_address') || DEFAULTS.address,
+  };
+}
+
+function buildSig() { return sigHTML(values()); }
 
 function updatePreview() {
   const iframe = document.getElementById('preview');
@@ -129,7 +193,7 @@ function copyHTML() {
   });
 }
 
-FIELDS.forEach(f => document.getElementById(f.id).addEventListener('input', updatePreview));
+['f_name','f_title','f_email','f_phone','f_address'].forEach(id => document.getElementById(id).addEventListener('input', updatePreview));
 updatePreview();
 </script>
 </body>
