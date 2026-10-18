@@ -3,84 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Off Track RV | Email Signature Generator</title>
+<title>Off Track RV | Email Signature</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --dark: #0d0d0d; --mid: #1c1c1c; --accent: #15C29F; --white: #ffffff; --grey: #8a8a8a; }
+  :root {
+    --ink: #111111;
+    --muted: #6b6b6b;
+    --line: #e6e6e6;
+    --field: #f4f4f4;
+    --page: #fafafa;
+    --teal: #15C29F;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--dark); color: var(--white); font-family: 'Helvetica Neue', Arial, sans-serif; min-height: 100vh; }
-  header { background: #000; border-bottom: 2px solid var(--accent); padding: 18px 32px; display: flex; align-items: center; gap: 16px; }
-  header h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
-  header span { font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
-  .sep { width: 1px; height: 28px; background: #444; }
-  .layout { display: grid; grid-template-columns: 320px 1fr; min-height: calc(100vh - 62px); }
-  .panel { background: var(--mid); border-right: 1px solid #2e2e2e; padding: 28px 24px; overflow-y: auto; }
-  .panel h2 { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; font-weight: 600; }
-  .field-group { margin-bottom: 16px; }
-  .field-group label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey); margin-bottom: 5px; font-weight: 500; }
-  .field-group input { width: 100%; background: #0d0d0d; border: 1px solid #333; border-radius: 3px; padding: 9px 12px; color: var(--white); font-size: 13px; outline: none; transition: border-color 0.2s; font-family: inherit; }
-  .field-group input:focus { border-color: var(--accent); }
-  .preview-area { padding: 36px; display: flex; flex-direction: column; align-items: flex-start; }
-  .preview-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; font-weight: 600; }
-  .preview-box { background: #fff; padding: 20px; border-radius: 4px; max-width: 640px; width: 100%; }
+  body { background: var(--page); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+
+  .topbar { background: #fff; border-bottom: 1px solid var(--line); }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar img { height: 34px; width: auto; display: block; }
+  .topbar a.site { font-size: 14px; color: var(--muted); text-decoration: none; }
+  .topbar a.site:hover { color: var(--ink); }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 56px 32px 72px; display: grid; grid-template-columns: 380px 1fr; gap: 56px; align-items: start; }
+
+  h1 { font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 38px; line-height: 1.05; letter-spacing: 0; margin-bottom: 12px; }
+  .lede { color: var(--muted); margin-bottom: 32px; }
+
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .field input { width: 100%; background: var(--field); border: 1px solid transparent; border-radius: 10px; padding: 12px 14px; font-size: 15px; color: var(--ink); font-family: inherit; outline: none; transition: border-color .15s, background .15s; }
+  .field input::placeholder { color: #a3a3a3; }
+  .field input:focus { background: #fff; border-color: var(--ink); }
+  .hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+  .buttons { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+  .btn { font-family: inherit; font-size: 15px; font-weight: 600; border-radius: 999px; padding: 13px 22px; cursor: pointer; border: 1px solid var(--ink); transition: background .15s, color .15s; }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover { background: #333; }
+  .btn-secondary { background: #fff; color: var(--ink); }
+  .btn-secondary:hover { background: var(--field); }
+
+  /* email window */
+  .window { background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.06); overflow: hidden; }
+  .window-bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: #fcfcfc; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; background: #e2e2e2; }
+  .window-bar span { margin-left: 10px; font-size: 13px; color: var(--muted); font-weight: 600; }
+  .meta { padding: 0 20px; }
+  .meta div { padding: 11px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; color: var(--muted); }
+  .meta b { color: var(--ink); font-weight: 500; }
+  .body { padding: 22px 20px 26px; }
+  .body p { font-size: 14px; color: #333; margin-bottom: 18px; }
   iframe#preview { width: 600px; max-width: 100%; height: 260px; border: none; display: block; }
-  .actions { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
-  .actions h2 { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; font-weight: 600; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 3px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
-  .btn-primary { background: var(--accent); color: #000; }
-  .btn-primary:hover { background: #2fd8b4; }
-  .btn-secondary { background: transparent; color: var(--white); border: 1px solid #444; }
-  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-  .copy-area { margin-top: 24px; padding-top: 24px; border-top: 1px solid #2e2e2e; }
-  .instructions { background: #0d0d0d; border: 1px solid #2e2e2e; border-radius: 3px; padding: 14px; font-size: 12px; color: #aaa; line-height: 1.8; }
-  .instructions ol { padding-left: 16px; }
-  .instructions li { margin-bottom: 4px; }
-  .instructions strong { color: var(--white); }
-  .toast { position: fixed; bottom: 28px; right: 28px; background: var(--accent); color: #000; padding: 11px 18px; border-radius: 3px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0; transform: translateY(8px); transition: all 0.3s; pointer-events: none; z-index: 999; }
-  .toast.show { opacity: 1; transform: translateY(0); }
-  @media (max-width: 820px) { .layout { grid-template-columns: 1fr; } .panel { border-right: none; } .preview-area { padding: 20px 16px; } }
+
+  .install { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .step { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .step .n { font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 15px; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .step h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .step p { font-size: 13px; color: var(--muted); }
+  .video { margin-top: 14px; font-size: 14px; color: var(--muted); }
+  .video a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
+  footer { border-top: 1px solid var(--line); background: #fff; }
+  footer div { max-width: 1180px; margin: 0 auto; padding: 22px 32px; font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 10px); background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; transition: all .25s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 1000px) {
+    main { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 36px 16px 56px; }
+    main > section { min-width: 0; }
+    .topbar-inner, footer div { padding-left: 16px; padding-right: 16px; }
+    h1 { font-size: 32px; }
+    .body { overflow-x: auto; }
+  }
+  @media (max-width: 640px) { .install { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<header>
-  <h1>Off Track RV</h1>
-  <div class="sep"></div>
-  <span>Email Signature Generator</span>
-</header>
-<div class="layout">
-  <div class="panel">
-    <h2>Your Details</h2>
-    <div class="field-group"><label>Full Name</label><input type="text" id="f_name" placeholder="Justin Borg"></div>
-    <div class="field-group"><label>Job Title</label><input type="text" id="f_title" placeholder="Managing Director"></div>
-    <div class="field-group"><label>Email Address</label><input type="text" id="f_email" placeholder="justin@offtrackrv.com"></div>
-    <div class="field-group"><label>Phone</label><input type="text" id="f_phone" value="03 9970 1111"></div>
-    <div class="field-group"><label>Address</label><input type="text" id="f_address" value="1946 Sydney Road, Campbellfield VIC 3061"></div>
-    <div class="copy-area">
-      <h2>How to Install</h2>
-      <div class="instructions">
-        <ol>
-          <li>Click <strong>Download Signature</strong></li>
-          <li>Open the <strong>.html</strong> file in Chrome</li>
-          <li>Select all <strong>Cmd+A</strong> &rarr; Copy</li>
-          <li><strong>Gmail:</strong> Settings &rarr; General &rarr; Signature &rarr; Paste</li>
-          <li><strong>Outlook:</strong> Settings &rarr; Compose &rarr; Signature &rarr; Paste</li>
-          <li>Save and send a test email</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-  <div class="preview-area">
-    <div class="preview-label">Live Preview</div>
-    <div class="preview-box">
-      <iframe id="preview" title="Signature preview"></iframe>
-    </div>
-    <div class="actions">
-      <h2>Export</h2>
-      <button class="btn btn-primary" onclick="downloadSig()">&#8595; Download Signature (.html)</button>
-      <button class="btn btn-secondary" onclick="copyHTML()">&#9633; Copy Raw HTML</button>
-    </div>
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="https://www.offtrackrv.com.au/" target="_blank"><img src="img/otrv-logo-black.png" alt="Off Track RV"></a>
+    <a class="site" href="https://www.offtrackrv.com.au/" target="_blank">offtrackrv.com.au</a>
   </div>
 </div>
+
+<main>
+  <section>
+    <h1>Your email signature</h1>
+    <p class="lede">Fill in your details. The preview updates as you type, then download it and paste it into Gmail or Outlook.</p>
+
+    <div class="field"><label for="f_name">Full name</label><input type="text" id="f_name" placeholder="Justin Borg"></div>
+    <div class="field"><label for="f_title">Job title</label><input type="text" id="f_title" placeholder="Managing Director"></div>
+    <div class="field"><label for="f_email">Email</label><input type="text" id="f_email" placeholder="justin@offtrackrv.com"></div>
+    <div class="field"><label for="f_phone">Phone</label><input type="text" id="f_phone" value="03 9970 1111"></div>
+    <div class="field">
+      <label for="f_address">Showroom address</label><input type="text" id="f_address" value="1946 Sydney Road, Campbellfield VIC 3061">
+      <p class="hint">NSW and WA team, swap in your showroom.</p>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-primary" onclick="downloadSig()">Download signature</button>
+      <button class="btn btn-secondary" onclick="copyHTML()">Copy HTML</button>
+    </div>
+  </section>
+
+  <section class="preview-col">
+    <div class="window">
+      <div class="window-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span>New message</span></div>
+      <div class="meta">
+        <div>To &nbsp;<b>customer@email.com</b></div>
+        <div>Subject &nbsp;<b>Your new caravan</b></div>
+      </div>
+      <div class="body">
+        <p>Hi there,<br><br>Great to chat today. Let me know if you have any questions.</p>
+        <iframe id="preview" title="Signature preview"></iframe>
+      </div>
+    </div>
+
+    <div class="install">
+      <div class="step"><div class="n">1</div><h3>Download</h3><p>Click Download signature and open the file in Chrome.</p></div>
+      <div class="step"><div class="n">2</div><h3>Copy</h3><p>Press Cmd+A to select everything, then Cmd+C.</p></div>
+      <div class="step"><div class="n">3</div><h3>Paste</h3><p>Gmail: Settings, General, Signature. Outlook: Settings, Compose, Signature.</p></div>
+    </div>
+    <p class="video">Stuck? <a href="https://www.loom.com/share/88179b549eb84a2fbb4f51f305c326db" target="_blank">Watch the install video</a></p>
+  </section>
+</main>
+
+<footer><div><span>Off Track RV</span><span>Campbellfield VIC · Heatherbrae NSW · Rockingham WA</span></div></footer>
 <div class="toast" id="toast"></div>
+
 <script>
 const BASE = 'https://swipeupco.github.io/offtrackrvsig/img/';
 const V = '20261018'; // bump when an image changes so email image caches refresh
@@ -176,21 +229,24 @@ function updatePreview() {
   };
 }
 
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
 function downloadSig() {
   const blob = new Blob([buildSig()], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   const name = document.getElementById('f_name').value.trim().replace(/\s+/g, '_') || 'OTRV';
-  a.href = url; a.download = 'OTRV_Sig_' + name + '.html'; a.click();
+  a.href = url; a.download = 'OTRV_Signature_' + name + '.html'; a.click();
   URL.revokeObjectURL(url);
+  toast('Downloaded. Open it in Chrome next.');
 }
 
 function copyHTML() {
-  navigator.clipboard.writeText(buildSig()).then(() => {
-    const t = document.getElementById('toast');
-    t.textContent = 'Copied!'; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  });
+  navigator.clipboard.writeText(buildSig()).then(() => toast('HTML copied'));
 }
 
 ['f_name','f_title','f_email','f_phone','f_address'].forEach(id => document.getElementById(id).addEventListener('input', updatePreview));
