@@ -23,8 +23,6 @@
   .topbar { background: #fff; border-bottom: 1px solid var(--line); }
   .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; }
   .topbar img { height: 34px; width: auto; display: block; }
-  .topbar a.site { font-size: 14px; color: var(--muted); text-decoration: none; }
-  .topbar a.site:hover { color: var(--ink); }
 
   main { max-width: 1180px; margin: 0 auto; padding: 56px 32px 72px; display: grid; grid-template-columns: 380px 1fr; gap: 56px; align-items: start; }
 
@@ -65,16 +63,13 @@
   .video { margin-top: 14px; font-size: 14px; color: var(--muted); }
   .video a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
 
-  footer { border-top: 1px solid var(--line); background: #fff; }
-  footer div { max-width: 1180px; margin: 0 auto; padding: 22px 32px; font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 10px); background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; transition: all .25s; pointer-events: none; }
   .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
   @media (max-width: 1000px) {
     main { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 36px 16px 56px; }
     main > section { min-width: 0; }
-    .topbar-inner, footer div { padding-left: 16px; padding-right: 16px; }
+    .topbar-inner { padding-left: 16px; padding-right: 16px; }
     h1 { font-size: 32px; }
     .body { overflow-x: auto; }
   }
@@ -85,7 +80,6 @@
 <div class="topbar">
   <div class="topbar-inner">
     <a href="https://www.offtrackrv.com.au/" target="_blank"><img src="img/otrv-logo-black.png" alt="Off Track RV"></a>
-    <a class="site" href="https://www.offtrackrv.com.au/" target="_blank">offtrackrv.com.au</a>
   </div>
 </div>
 
@@ -131,7 +125,6 @@
   </section>
 </main>
 
-<footer><div><span>Off Track RV</span><span>Campbellfield VIC · Heatherbrae NSW · Rockingham WA</span></div></footer>
 <div class="toast" id="toast"></div>
 
 <script>
