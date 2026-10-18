@@ -32,6 +32,8 @@
   .field { margin-bottom: 18px; }
   .field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
   .field input { width: 100%; background: var(--field); border: 1px solid transparent; border-radius: 10px; padding: 12px 14px; font-size: 15px; color: var(--ink); font-family: inherit; outline: none; transition: border-color .15s, background .15s; }
+  .field select { width: 100%; background: var(--field) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23111' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center; border: 1px solid transparent; border-radius: 10px; padding: 12px 38px 12px 14px; font-size: 15px; color: var(--ink); font-family: inherit; outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; transition: border-color .15s, background-color .15s; }
+  .field select:focus { background-color: #fff; border-color: var(--ink); }
   .field input::placeholder { color: #a3a3a3; }
   .field input:focus { background: #fff; border-color: var(--ink); }
   .hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
@@ -91,10 +93,17 @@
     <div class="field"><label for="f_name">Full name</label><input type="text" id="f_name" placeholder="Justin Borg"></div>
     <div class="field"><label for="f_title">Job title</label><input type="text" id="f_title" placeholder="Managing Director"></div>
     <div class="field"><label for="f_email">Email</label><input type="text" id="f_email" placeholder="justin@offtrackrv.com"></div>
-    <div class="field"><label for="f_phone">Phone</label><input type="text" id="f_phone" value="03 9970 1111"></div>
     <div class="field">
-      <label for="f_address">Showroom address</label><input type="text" id="f_address" value="1946 Sydney Road, Campbellfield VIC 3061">
-      <p class="hint">NSW and WA team, swap in your showroom.</p>
+      <label for="f_showroom">Showroom</label>
+      <select id="f_showroom">
+        <option value="vic">Melbourne, Campbellfield VIC</option>
+        <option value="nsw">Newcastle, Heatherbrae NSW</option>
+        <option value="wa">Perth, Rockingham WA</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="f_phone">Phone</label><input type="text" id="f_phone" value="03 9970 1111">
+      <p class="hint">Fills in your showroom's number. Swap in your mobile if you prefer.</p>
     </div>
 
     <div class="buttons">
@@ -131,12 +140,17 @@
 const BASE = 'https://swipeupco.github.io/offtrackrvsig/img/';
 const V = '20261018'; // bump when an image changes so email image caches refresh
 
+// from offtrackrv.com.au/contact-us
+const SHOWROOMS = {
+  vic: { phone: '03 9970 1111', address: '1946 Sydney Road, Campbellfield VIC 3061' },
+  nsw: { phone: '02 8360 1111', address: '37 Camfield Drive, Heatherbrae NSW 2324' },
+  wa:  { phone: '08 6289 1111', address: '2/67 Dixon Road, Rockingham WA 6168' },
+};
+
 const DEFAULTS = {
   name: 'Justin Borg',
   title: 'Managing Director',
   email: 'justin@offtrackrv.com',
-  phone: '03 9970 1111',
-  address: '1946 Sydney Road, Campbellfield VIC 3061',
 };
 
 function esc(s) {
@@ -200,14 +214,25 @@ function sigHTML(d) {
 
 function values() {
   const v = id => document.getElementById(id).value.trim();
+  const room = SHOWROOMS[v('f_showroom')] || SHOWROOMS.vic;
   return {
     name: v('f_name') || DEFAULTS.name,
     title: v('f_title') || DEFAULTS.title,
     email: v('f_email') || DEFAULTS.email,
-    phone: v('f_phone') || DEFAULTS.phone,
-    address: v('f_address') || DEFAULTS.address,
+    phone: v('f_phone') || room.phone,
+    address: room.address,
   };
 }
+
+// switching showroom swaps in its number, unless someone has typed their own (e.g. a mobile)
+document.getElementById('f_showroom').addEventListener('change', () => {
+  const phone = document.getElementById('f_phone');
+  const showroomNumbers = Object.values(SHOWROOMS).map(r => r.phone);
+  if (!phone.value.trim() || showroomNumbers.includes(phone.value.trim())) {
+    phone.value = SHOWROOMS[document.getElementById('f_showroom').value].phone;
+  }
+  updatePreview();
+});
 
 function buildSig() { return sigHTML(values()); }
 
@@ -242,7 +267,7 @@ function copyHTML() {
   navigator.clipboard.writeText(buildSig()).then(() => toast('HTML copied'));
 }
 
-['f_name','f_title','f_email','f_phone','f_address'].forEach(id => document.getElementById(id).addEventListener('input', updatePreview));
+['f_name','f_title','f_email','f_phone'].forEach(id => document.getElementById(id).addEventListener('input', updatePreview));
 updatePreview();
 </script>
 </body>
